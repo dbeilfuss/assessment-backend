@@ -1,0 +1,34 @@
+<!-- Which species are you?: Users can select traits that they have, and the app will tell them which Star Wars species they most closely resemble. This would mainly involve front-end logic and GET requests to fetch species data.
+Save Character: After finding out which species they are, users can save this information along with a name and possibly other characteristics. This will involve POST requests to send data to a back-end database.
+Display Characters: The app can fetch and display characters based on their species, including the one the user just created. This could involve both GET requests to fetch existing data and POST requests to add new characters.
+Delete Character: Users can delete a previously saved character from the database. This would require DELETE requests. -->
+
+<form id="species-form">
+  <label for="Average-height">Height?:</label>
+  <select id="average-height"></select>
+  <br />
+
+  <label for="skin-colors">Skin Color?:</label>
+  <select id="skin-colors"></select>
+  <br />
+
+  <label for="hair-colors">Hair Color:</label>
+  <select id="hair-colors"></select>
+  <br />
+
+  <label for="eye-colors">Eye Color:</label>
+  <select id="eye-colors"></select>
+  <br />
+
+  <label for="average-lifespan">Expected Lifespan:</label>
+  <select id="average-lifespan"></select>
+  <br />
+
+  <label for="homeworld-terrain">Favorite Terrain:</label>
+  <select id="homeworld-terrain"></select>
+
+  <label for="homeworld-climate">Favorite Climate:</label>
+  <select id="homeworld-climate"></select>
+
+  <input type="submit" value="Find Species" />
+</form>
