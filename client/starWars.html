@@ -19,7 +19,7 @@ Delete Character: Users can delete a previously saved character from the databas
 
     <form id="species_form" style="display: none">
       <h3>What are you like?</h3>
-      <label for="average_height">Height:</label>
+      <label for="average_height">Height (cm):</label>
       <select id="average_height"></select>
       <br />
 
@@ -48,9 +48,16 @@ Delete Character: Users can delete a previously saved character from the databas
       <br />
       <br />
 
-      <input type="submit" value="Find Species!" />
+      <input type="submit" value="Find My Species!" />
     </form>
 
+    <div class="species_discovery">
+      <p id="speciesName"></p>
+      <p id="similarAttributes"></p>
+      <p id="differentAttributes"></p>
+      <p id="otherMembers"></p>
+      <button id="addToList">Add me to the list!</button>
+    </div>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="starWars.js"></script>
   </body>

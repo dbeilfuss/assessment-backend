@@ -6,37 +6,6 @@ const speciesForm = document.getElementById("species_form");
 
 const baseURL = `http://localhost:4000/api/`;
 
-// async function fetchOptionsList(characteristic) {
-//   function cleanUpData(data) {
-//     let splitData = [];
-//     let cleanedData = [];
-
-//     /// split lists ///
-//     splitData = data.map((item) => item.split(", ")).flat();
-
-//     /// eliminate duplicates ///
-//     splitData.forEach((item) => {
-//       if (!cleanedData.includes(item)) {
-//         cleanedData.push(item);
-//       }
-//     });
-
-//     cleanedData.sort((a, b) => a.localeCompare(b));
-
-//     return cleanedData;
-//   }
-
-//   try {
-//     const response = await axios.get(baseURL + "species");
-//     let options = response.data.map((species) => species[characteristic]);
-//     options = cleanUpData(options);
-//     return options;
-//   } catch (error) {
-//     console.log("error fetching options", error);
-//     return [];
-//   }
-// }
-
 function populateDropDowns() {
   for (i = 0; i < dropDowns.length; i++) {
     const dropdown = dropDowns[i];
@@ -63,14 +32,88 @@ function populateDropDowns() {
   }
 }
 
+function findOutSpecies(event) {
+  event.preventDefault();
+
+  let requestURL = `${baseURL}matchSpecies/`;
+
+  const requestBody = {
+    average_height: dropDowns[0].value,
+    skin_colors: dropDowns[1].value,
+    hair_colors: dropDowns[2].value,
+    eye_colors: dropDowns[3].value,
+    average_lifespan: dropDowns[4].value,
+    homeworld_terrain: dropDowns[5].value,
+    homeworld_climate: dropDowns[6].value,
+  };
+
+  console.log(requestBody);
+  console.log(requestURL);
+
+  axios
+    .post(requestURL, requestBody)
+    .then((res) => {
+      console.log(res);
+
+      // Initialize objects to hold species counts and attribute lists
+      const speciesCounts = {};
+      const speciesAttributes = {};
+
+      // Iterate over each attribute in the response data
+      for (const [attribute, speciesArray] of Object.entries(res.data)) {
+        speciesArray.forEach((species) => {
+          // Increment species count
+          speciesCounts[species] = (speciesCounts[species] || 0) + 1;
+
+          // Add attribute to species' list of attributes
+          if (!speciesAttributes[species]) {
+            speciesAttributes[species] = [];
+          }
+          speciesAttributes[species].push(attribute);
+        });
+      }
+
+      // Find the species with the highest count
+      let maxCount = 0;
+      let mostCommonSpecies = "";
+      for (const [species, count] of Object.entries(speciesCounts)) {
+        if (count > maxCount) {
+          maxCount = count;
+          mostCommonSpecies = species;
+        }
+      }
+
+      // List of attributes that the most common species did and did not appear in
+      const appearedIn = speciesAttributes[mostCommonSpecies] || [];
+      const notAppearedIn = Object.keys(res.data).filter(
+        (attr) => !appearedIn.includes(attr)
+      );
+
+      console.log(`Most common species: ${mostCommonSpecies}`);
+      console.log(`Appeared in attributes: ${appearedIn.join(", ")}`);
+      console.log(`Did not appear in attributes: ${notAppearedIn.join(", ")}`);
+
+      // Populate the HTML with the result!
+      const speciesNameElement = document.getElementById("speciesName");
+      const similarAttributesElement =
+        document.getElementById("similarAttributes");
+      const differentAttributesElement = document.getElementById(
+        "differentAttributes"
+      );
+      const otherMembersElement = document.getElementById("otherMembers");
+      const addButton = document.getElementById("addToList");
+
+      speciesNameElement.textContent = `Your species is: ${mostCommonSpecies}!`;
+      similarAttributesElement.textContent = `Like other members of your species, you have these similar attributes: ${appearedIn.join(
+        ", "
+      )}.`;
+      differentAttributesElement.textContent = `Unlike other members of your species, you have these different attributes: ${notAppearedIn.join(
+        ", "
+      )}.`;
+    })
+    .catch((err) => console.log(err));
+}
+
 populateDropDowns();
 
-// const createHouse = (body) =>
-//   axios.post(baseURL, body).then(housesCallback).catch(errCallback);
-// const deleteHouse = (id) =>
-//   axios.delete(`${baseURL}/${id}`).then(housesCallback).catch(errCallback);
-// const updateHouse = (id, type) =>
-//   axios
-//     .put(`${baseURL}/${id}`, { type })
-//     .then(housesCallback)
-//     .catch(errCallback);
+speciesForm.addEventListener("submit", findOutSpecies);

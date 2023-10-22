@@ -1,11 +1,9 @@
 const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
-
 const app = express();
 
 app.use(cors());
-
 app.use(express.json());
 
 /// Initial Functions ///
@@ -17,21 +15,24 @@ app.get("/api/compliment", getCompliment);
 app.get("/api/fortune", getFortune);
 
 /// Star Wars Functions ///
-
 const {
-  initializeDatabase,
+  initializeDatabase: reInitializeDatabase,
   getSpeciesList,
-  lookupAttribute,
+  getAttributeList,
+  getSpeciesByAttribute,
+  getListOfPeople,
 } = require("./starWarsController");
 
 /// Star Wars EndPoints ///
 app.get("/api/species", getSpeciesList);
-app.get("/api/attribute/:id", lookupAttribute);
+app.get("/api/attribute/:id", getAttributeList);
+app.post("/api/matchSpecies", getSpeciesByAttribute);
+app.get("/api/people/:id", getListOfPeople);
 
 /// Run Server ///
 app.listen(4000, () => console.log("Server running on 4000"));
 
 /// To Re-Download the Database ///
-initializeDatabase(false);
+reInitializeDatabase(false);
 /// Will re-create the database by downloading various elements from swapi.dev ///
 /// While set to false, the server will use the backupDatabase ///
