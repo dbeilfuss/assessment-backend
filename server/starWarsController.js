@@ -1,30 +1,6 @@
 const axios = require("axios");
 const backupDatabase = require("./starWarsBackupDatabase");
-// let speciesList = [];
-let speciesList = [
-  //   {
-  //     name: "human",
-  //     homeworld: "earth",
-  //     skin_colors: "black, brown, asian, white",
-  //     hair_colors: "brown, black, blonde, red",
-  //     eye_colors: "brown, green, blue",
-  //     average_lifespan: "70",
-  //     homeworld_terrain: "fields, forests",
-  //     homeworld_climate: "moderate",
-  //     average_height: "182",
-  //   },
-  //   {
-  //     name: "klingon",
-  //     homeworld: "klingon",
-  //     skin_colors: "black, brown, red",
-  //     hair_colors: "brown, black, red, gray",
-  //     eye_colors: "brown, flaming",
-  //     average_lifespan: "45",
-  //     homeworld_terrain: "deserts, caves",
-  //     homeworld_climate: "harsh",
-  //     average_height: "200",
-  //   },
-];
+let speciesList = [];
 
 async function downloadSpeciesList() {
   console.log("1/3 downloading species list from swapi.dev");
@@ -105,10 +81,10 @@ async function initializeDatabase(useOnlineDatabase) {
     await downloadSpeciesList();
     await downloadHomeworldData();
     await downloadPeopleData();
+    console.log(speciesList);
   } else {
     speciesList = backupDatabase.backupDatabase;
   }
-  console.log(speciesList);
 }
 
 const getSpeciesList = (req, res) => {

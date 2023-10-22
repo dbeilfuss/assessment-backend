@@ -34,4 +34,4 @@ app.listen(4000, () => console.log("Server running on 4000"));
 /// To Re-Download the Database ///
 initializeDatabase(false);
 /// Will re-create the database by downloading various elements from swapi.dev ///
-/// While this is set to false, the server will use the backupDatabase ///
+/// While set to false, the server will use the backupDatabase ///
