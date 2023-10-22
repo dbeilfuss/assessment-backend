@@ -6,51 +6,61 @@ const speciesForm = document.getElementById("species_form");
 
 const baseURL = `http://localhost:4000/api/`;
 
-async function fetchOptionsList(characteristic) {
-  function cleanUpData(data) {
-    let splitData = [];
-    let cleanedData = [];
+// async function fetchOptionsList(characteristic) {
+//   function cleanUpData(data) {
+//     let splitData = [];
+//     let cleanedData = [];
 
-    /// split lists ///
-    splitData = data.map((item) => item.split(", ")).flat();
+//     /// split lists ///
+//     splitData = data.map((item) => item.split(", ")).flat();
 
-    /// eliminate duplicates ///
-    splitData.forEach((item) => {
-      if (!cleanedData.includes(item)) {
-        cleanedData.push(item);
-      }
-    });
+//     /// eliminate duplicates ///
+//     splitData.forEach((item) => {
+//       if (!cleanedData.includes(item)) {
+//         cleanedData.push(item);
+//       }
+//     });
 
-    cleanedData.sort((a, b) => a.localeCompare(b));
+//     cleanedData.sort((a, b) => a.localeCompare(b));
 
-    return cleanedData;
-  }
+//     return cleanedData;
+//   }
 
-  try {
-    const response = await axios.get(baseURL + "species");
-    let options = response.data.map((species) => species[characteristic]);
-    options = cleanUpData(options);
-    return options;
-  } catch (error) {
-    console.log("error fetching options", error);
-    return [];
-  }
-}
+//   try {
+//     const response = await axios.get(baseURL + "species");
+//     let options = response.data.map((species) => species[characteristic]);
+//     options = cleanUpData(options);
+//     return options;
+//   } catch (error) {
+//     console.log("error fetching options", error);
+//     return [];
+//   }
+// }
 
-async function populateDropDowns() {
+function populateDropDowns() {
   for (i = 0; i < dropDowns.length; i++) {
     const dropdown = dropDowns[i];
-    const optionsList = await fetchOptionsList(dropdown.id);
-    console.log(optionsList);
-    optionsList.forEach((attribute) => {
-      const optionElement = document.createElement("option");
-      optionElement.value = attribute;
-      optionElement.textContent = attribute;
-      dropdown.appendChild(optionElement);
-    });
+    const attribute = dropdown.id;
+
+    axios
+      .get(`${baseURL}attribute/${attribute}`)
+
+      .then((res) => {
+        const optionsList = res.data;
+        for (let i = 0; i < optionsList.length; i++) {
+          const option = optionsList[i];
+          const optionElement = document.createElement("option");
+          optionElement.value = option;
+          optionElement.textContent = option;
+          dropdown.appendChild(optionElement);
+        }
+      })
+
+      .catch((error) => console.log("error", error));
+
+    loadingNotification.style.display = "none";
+    speciesForm.style.display = "block";
   }
-  loadingNotification.style.display = "none";
-  speciesForm.style.display = "block";
 }
 
 populateDropDowns();
