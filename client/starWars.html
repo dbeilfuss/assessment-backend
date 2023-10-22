@@ -3,32 +3,55 @@ Save Character: After finding out which species they are, users can save this in
 Display Characters: The app can fetch and display characters based on their species, including the one the user just created. This could involve both GET requests to fetch existing data and POST requests to add new characters.
 Delete Character: Users can delete a previously saved character from the database. This would require DELETE requests. -->
 
-<form id="species-form">
-  <label for="Average-height">Height?:</label>
-  <select id="average-height"></select>
-  <br />
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>What Star Wars Species Are You?</h1>
+    <div id="loading-notification">
+      <h6>Loading data from SWAPI.dev, please wait...</h6>
+      <h6>This requires an internet connection.</h6>
+    </div>
 
-  <label for="skin-colors">Skin Color?:</label>
-  <select id="skin-colors"></select>
-  <br />
+    <form id="species_form" style="display: none">
+      <h3>What are you like?</h3>
+      <label for="average_height">Height:</label>
+      <select id="average_height"></select>
+      <br />
 
-  <label for="hair-colors">Hair Color:</label>
-  <select id="hair-colors"></select>
-  <br />
+      <label for="skin_colors">Skin Color?:</label>
+      <select id="skin_colors"></select>
+      <br />
 
-  <label for="eye-colors">Eye Color:</label>
-  <select id="eye-colors"></select>
-  <br />
+      <label for="hair_colors">Hair Color:</label>
+      <select id="hair_colors"></select>
+      <br />
 
-  <label for="average-lifespan">Expected Lifespan:</label>
-  <select id="average-lifespan"></select>
-  <br />
+      <label for="eye_colors">Eye Color:</label>
+      <select id="eye_colors"></select>
+      <br />
 
-  <label for="homeworld-terrain">Favorite Terrain:</label>
-  <select id="homeworld-terrain"></select>
+      <label for="average_lifespan">Expected Lifespan:</label>
+      <select id="average_lifespan"></select>
+      <br />
 
-  <label for="homeworld-climate">Favorite Climate:</label>
-  <select id="homeworld-climate"></select>
+      <label for="homeworld_terrain">Favorite Terrain:</label>
+      <select id="homeworld_terrain"></select>
+      <br />
 
-  <input type="submit" value="Find Species" />
-</form>
+      <label for="homeworld_climate">Favorite Climate:</label>
+      <select id="homeworld_climate"></select>
+      <br />
+      <br />
+
+      <input type="submit" value="Find Species!" />
+    </form>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="starWars.js"></script>
+  </body>
+</html>
