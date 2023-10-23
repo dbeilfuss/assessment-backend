@@ -1,0 +1,77 @@
+/* General styles */
+body {
+  background-color: black;
+  color: white;
+  font-family: "Courier New", Courier, monospace;
+}
+
+h1 {
+  text-align: center;
+  font-size: 3rem;
+  color: gold;
+}
+
+h3 {
+  font-size: 1.5rem;
+  color: gold;
+}
+
+label {
+  font-size: 1.2rem;
+}
+
+/* Form styles */
+form {
+  border: 1px solid gold;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+  margin: auto;
+  width: 50%;
+}
+
+input[type="submit"] {
+  background-color: gold;
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+select {
+  background-color: #333;
+  color: white;
+  border: 1px solid gold;
+}
+
+/* Results styles */
+#results {
+  border: 2px solid gold;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+  margin: auto;
+  width: 50%;
+}
+
+#add-to-list-button {
+  background-color: gold;
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+/* Loading styles */
+#loading-notification {
+  text-align: center;
+  color: gold;
+}
