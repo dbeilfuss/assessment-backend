@@ -178,9 +178,29 @@ function getSpeciesByAttribute(req, res) {
 }
 
 function getListOfPeople(req, res) {
-  const species = req.params.id;
-  const people = speciesList[species].people;
+  const species = speciesList.filter(
+    (species) => species.name === req.params.id
+  );
+  const people = species[0].people;
+  console.log(species, people);
   res.status(200).send(people);
+}
+
+function postPerson(req, res) {
+  const { species, name } = req.body;
+  const targetSpecies = speciesList.find((s) => s.name === species);
+
+  if (!targetSpecies) {
+    return res.status(404).send("Species not found");
+  }
+
+  if (targetSpecies.people.includes(name)) {
+    return res.status(400).send("Name already exists for this species");
+  }
+
+  targetSpecies.people.push(name);
+
+  res.status(200).send(`Successfully added ${name} to ${species}`);
 }
 
 module.exports = {
@@ -189,4 +209,5 @@ module.exports = {
   getAttributeList,
   getSpeciesByAttribute,
   getListOfPeople,
+  postPerson,
 };

@@ -51,12 +51,16 @@ Delete Character: Users can delete a previously saved character from the databas
       <input type="submit" value="Find My Species!" />
     </form>
 
-    <div class="species_discovery">
+    <div id="results" style="display: none">
       <p id="speciesName"></p>
       <p id="similarAttributes"></p>
       <p id="differentAttributes"></p>
       <p id="otherMembers"></p>
-      <button id="addToList">Add me to the list!</button>
+      <div id="add-to-list">
+        <label for="character-name">Your Name: </label>
+        <input type="text" id="character-name" name="user-name" />
+        <button id="add-to-list-button">Add me to the list!</button>
+      </div>
     </div>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="starWars.js"></script>

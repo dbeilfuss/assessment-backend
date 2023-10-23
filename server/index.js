@@ -21,13 +21,15 @@ const {
   getAttributeList,
   getSpeciesByAttribute,
   getListOfPeople,
+  postPerson,
 } = require("./starWarsController");
 
 /// Star Wars EndPoints ///
 app.get("/api/species", getSpeciesList);
 app.get("/api/attribute/:id", getAttributeList);
-app.post("/api/matchSpecies", getSpeciesByAttribute);
 app.get("/api/people/:id", getListOfPeople);
+app.post("/api/matchSpecies", getSpeciesByAttribute);
+app.post("/api/person", postPerson);
 
 /// Run Server ///
 app.listen(4000, () => console.log("Server running on 4000"));

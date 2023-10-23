@@ -1,6 +1,20 @@
+/// items we'll use from the DOM ///
 const dropDowns = document.querySelectorAll("select");
 const loadingNotification = document.getElementById("loading-notification");
 const speciesForm = document.getElementById("species_form");
+const speciesNameElement = document.getElementById("speciesName");
+const similarAttributesElement = document.getElementById("similarAttributes");
+const differentAttributesElement = document.getElementById(
+  "differentAttributes"
+);
+const otherMembersElement = document.getElementById("otherMembers");
+const addButton = document.getElementById("addToList");
+const results = document.querySelector("#results");
+const addToListButton = document.getElementById("add-to-list-button");
+const characterNameInput = document.getElementById("character-name");
+
+/// Global Variables ///
+let mostCommonSpecies = "";
 
 // console.log(dropDowns);
 
@@ -31,6 +45,8 @@ function populateDropDowns() {
     speciesForm.style.display = "block";
   }
 }
+
+populateDropDowns();
 
 function findOutSpecies(event) {
   event.preventDefault();
@@ -75,7 +91,6 @@ function findOutSpecies(event) {
 
       // Find the species with the highest count
       let maxCount = 0;
-      let mostCommonSpecies = "";
       for (const [species, count] of Object.entries(speciesCounts)) {
         if (count > maxCount) {
           maxCount = count;
@@ -94,26 +109,56 @@ function findOutSpecies(event) {
       console.log(`Did not appear in attributes: ${notAppearedIn.join(", ")}`);
 
       // Populate the HTML with the result!
-      const speciesNameElement = document.getElementById("speciesName");
-      const similarAttributesElement =
-        document.getElementById("similarAttributes");
-      const differentAttributesElement = document.getElementById(
-        "differentAttributes"
-      );
-      const otherMembersElement = document.getElementById("otherMembers");
-      const addButton = document.getElementById("addToList");
-
       speciesNameElement.textContent = `Your species is: ${mostCommonSpecies}!`;
       similarAttributesElement.textContent = `Like other members of your species, you have these similar attributes: ${appearedIn.join(
         ", "
       )}.`;
-      differentAttributesElement.textContent = `Unlike other members of your species, you have these different attributes: ${notAppearedIn.join(
-        ", "
-      )}.`;
+      //   differentAttributesElement.textContent = `Unlike other members of your species, you have these different attributes: ${notAppearedIn.join(
+      // ", "
+      //   )}.`;
+
+      lookupPeople();
+      results.style.display = "block";
     })
     .catch((err) => console.log(err));
 }
 
-populateDropDowns();
+function lookupPeople() {
+  let otherPeople = "";
+
+  axios
+    .get(`${baseURL}people/${mostCommonSpecies}`)
+    .then((res) => {
+      otherPeople = res.data.join(", ");
+      console.log(otherPeople);
+      otherMembersElement.textContent = `Other members of your species: ${otherPeople}`;
+    })
+    .catch((err) => console.log(err));
+}
+
+function addPerson() {
+  console.log("hit");
+  const characterName = characterNameInput.value;
+  if (characterName) {
+    const requestURL = `${baseURL}person`;
+
+    const requestBody = {
+      species: mostCommonSpecies,
+      name: characterName,
+    };
+
+    console.log(requestBody);
+    console.log(requestURL);
+
+    axios
+      .post(requestURL, requestBody)
+      .then((res) => {
+        console.log(res);
+        lookupPeople();
+      })
+      .catch((err) => console.log(err));
+  }
+}
 
 speciesForm.addEventListener("submit", findOutSpecies);
+addToListButton.addEventListener("click", addPerson);
