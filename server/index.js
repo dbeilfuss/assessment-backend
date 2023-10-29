@@ -16,13 +16,12 @@ app.get("/api/fortune", getFortune);
 
 /// Star Wars Functions ///
 const {
-  initializeDatabase: reInitializeDatabase,
   getSpeciesList,
   getAttributeList,
   getSpeciesByAttribute,
   getListOfPeople,
   postPerson,
-} = require("./starWarsController");
+} = require("./star_wars/starWarsController");
 
 /// Star Wars EndPoints ///
 app.get("/api/species", getSpeciesList);
@@ -33,8 +32,3 @@ app.post("/api/person", postPerson);
 
 /// Run Server ///
 app.listen(4000, () => console.log("Server running on 4000"));
-
-/// To Re-Download the Database ///
-reInitializeDatabase(false);
-/// Will re-create the database by downloading various elements from swapi.dev ///
-/// While set to false, the server will use the backupDatabase ///

@@ -15,6 +15,7 @@ const characterNameInput = document.getElementById("character-name");
 
 /// Global Variables ///
 let mostCommonSpecies = "";
+let attributesInCommon = [];
 
 // console.log(dropDowns);
 
@@ -47,6 +48,19 @@ function populateDropDowns() {
 }
 
 populateDropDowns();
+
+function lookupPeople() {
+  let otherPeople = "";
+
+  axios
+    .get(`${baseURL}people/${mostCommonSpecies}`)
+    .then((res) => {
+      otherPeople = res.data.join(", ");
+      console.log(otherPeople);
+      otherMembersElement.textContent = `Other members of your species: ${otherPeople}`;
+    })
+    .catch((err) => console.log(err));
+}
 
 function findOutSpecies(event) {
   event.preventDefault();
@@ -119,19 +133,6 @@ function findOutSpecies(event) {
 
       lookupPeople();
       results.style.display = "block";
-    })
-    .catch((err) => console.log(err));
-}
-
-function lookupPeople() {
-  let otherPeople = "";
-
-  axios
-    .get(`${baseURL}people/${mostCommonSpecies}`)
-    .then((res) => {
-      otherPeople = res.data.join(", ");
-      console.log(otherPeople);
-      otherMembersElement.textContent = `Other members of your species: ${otherPeople}`;
     })
     .catch((err) => console.log(err));
 }
