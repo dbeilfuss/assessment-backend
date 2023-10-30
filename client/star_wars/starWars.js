@@ -11,7 +11,10 @@ const otherMembersElement = document.getElementById("otherMembers");
 const addButton = document.getElementById("addToList");
 const resultsSection = document.querySelector("#results");
 const addToListButton = document.getElementById("add-to-list-button");
+const addSpeciesButton = document.getElementById("add-species-button");
 const characterNameInput = document.getElementById("character-name");
+const speciesNameInput = document.getElementById("species-name");
+const deleteSpeciesButton = document.getElementById("delete-species-button");
 
 // console.log(dropDowns);
 
@@ -46,19 +49,19 @@ function populateDropDowns() {
 
 function lookupPeople(species) {
   let otherPeople = "";
+  url = `${baseURL}people/${species}`;
+  console.log(url);
 
   axios
-    .get(`${baseURL}people/${species}`)
+    .get(url)
     .then((res) => {
       otherPeople = res.data.join(", ");
-      console.log(otherPeople);
       otherMembersElement.textContent = `Other members of your species: ${otherPeople}`;
     })
     .catch((err) => console.log(err));
 }
 
 function displayResults(results) {
-  console.log(results);
   const { species, similarAttributes } = results;
   yourSpecies = species;
   // Populate the HTML with the result!
@@ -68,6 +71,31 @@ function displayResults(results) {
   )}.`;
 
   resultsSection.style.display = "block";
+}
+
+function addSpecies() {
+  const speciesName = speciesNameInput.value;
+  if (speciesName) {
+    const requestURL = `${baseURL}newSpecies`;
+
+    const requestBody = {
+      name: speciesName,
+      average_height: dropDowns[0].value,
+      skin_colors: dropDowns[1].value,
+      hair_colors: dropDowns[2].value,
+      eye_colors: dropDowns[3].value,
+      average_lifespan: dropDowns[4].value,
+      homeworld_terrain: dropDowns[5].value,
+      homeworld_climate: dropDowns[6].value,
+    };
+
+    axios
+      .post(requestURL, requestBody)
+      .then((res) => {
+        lookupPeople(yourSpecies);
+      })
+      .catch((err) => console.log(err));
+  }
 }
 
 async function findOutSpecies(event) {
@@ -85,10 +113,10 @@ async function findOutSpecies(event) {
   let results = await speciesCalculator(requestBody);
   displayResults(results);
   lookupPeople(yourSpecies);
+  addSpecies();
 }
 
 function addPerson() {
-  console.log("hit");
   const characterName = characterNameInput.value;
   if (characterName) {
     const requestURL = `${baseURL}person`;
@@ -98,19 +126,28 @@ function addPerson() {
       name: characterName,
     };
 
-    console.log(requestBody);
-    console.log(requestURL);
-
     axios
       .post(requestURL, requestBody)
       .then((res) => {
-        console.log(res);
         lookupPeople(yourSpecies);
       })
       .catch((err) => console.log(err));
   }
 }
 
+function deleteSpecies() {
+  const species = yourSpecies;
+  url = `${baseURL}deleteSpecies/${species}`;
+  axios
+    .delete(url)
+    .then((res) => {
+      location.reload();
+    })
+    .catch((err) => console.log(err));
+}
+
 populateDropDowns();
 speciesForm.addEventListener("submit", findOutSpecies);
 addToListButton.addEventListener("click", addPerson);
+addSpeciesButton.addEventListener("click", addSpecies);
+deleteSpeciesButton.addEventListener("click", deleteSpecies);

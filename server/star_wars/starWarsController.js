@@ -121,10 +121,66 @@ function postPerson(req, res) {
   res.status(200).send(`Successfully added ${name} to ${species}`);
 }
 
+function postSpecies(req, res) {
+  const {
+    name,
+    average_height,
+    skin_colors,
+    hair_colors,
+    eye_colors,
+    average_lifespan,
+    homeworld_terrain,
+    homeworld_climate,
+  } = req.body;
+
+  const targetSpecies = speciesList.find((species) => species.name === name);
+
+  if (targetSpecies) {
+    if (targetSpecies.name.includes(name)) {
+      return res.status(400).send("A species by this name already exists");
+    }
+  }
+
+  const newSpecies = {
+    name: name,
+    average_height: average_height,
+    skin_colors: skin_colors,
+    hair_colors: hair_colors,
+    eye_colors: eye_colors,
+    average_lifespan: average_lifespan,
+    people: [],
+    homeworld_climate: homeworld_climate,
+    homeworld_terrain: homeworld_terrain,
+  };
+
+  speciesList.push(newSpecies);
+
+  res.status(200).send(`Successfully added ${name} to speciesList`);
+}
+
+function deleteSpecies(req, res) {
+  const { species } = req.params;
+
+  const speciesIndex = speciesList.findIndex((s) => s.name === species);
+  console.log(`request to delete ${species} at index ${speciesIndex}`);
+  if (speciesIndex === -1) {
+    // Species not found
+    res.status(404).send("Species not found");
+    return;
+  }
+
+  const deletedSpecies = speciesList.splice(speciesIndex, 1);
+  console.log(`Species Deleted: ${deletedSpecies}`);
+
+  res.status(200).send(`Successfully deleted ${species} from speciesList`);
+}
+
 module.exports = {
   getSpeciesList,
   getAttributeList,
   getSpeciesByAttribute,
   getListOfPeople,
   postPerson,
+  postSpecies,
+  deleteSpecies,
 };

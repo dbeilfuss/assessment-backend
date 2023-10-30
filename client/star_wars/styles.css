@@ -58,7 +58,9 @@ select {
   width: 50%;
 }
 
-#add-to-list-button {
+#add-to-list-button,
+#add-species-button,
+#delete-species-button {
   background-color: gold;
   color: black;
   border: none;

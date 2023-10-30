@@ -21,8 +21,11 @@ const {
   getSpeciesByAttribute,
   getListOfPeople,
   postPerson,
+  postSpecies,
+  deleteSpecies,
 } = require("./star_wars/starWarsController");
 
+/// Log Incoming Requests ///
 app.use((req, res, next) => {
   console.log(`Incoming request: ${req.method} ${req.url}`);
   next();
@@ -34,6 +37,8 @@ app.get("/api/attribute/:id", getAttributeList);
 app.get("/api/people/:id", getListOfPeople);
 app.get("/api/matchSpecies", getSpeciesByAttribute);
 app.post("/api/person", postPerson);
+app.post("/api/newSpecies", postSpecies);
+app.delete("/api/deleteSpecies/:species", deleteSpecies);
 
 /// Run Server ///
 app.listen(4000, () => console.log("Server running on 4000"));
