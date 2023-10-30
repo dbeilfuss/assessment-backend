@@ -42,7 +42,7 @@ function getAttributeList(req, res) {
 
 function getSpeciesByAttribute(req, res) {
   console.log(`looking up species with the following attributes:`);
-  console.log(req.body);
+  console.log(req.query);
 
   const {
     average_height,
@@ -52,7 +52,9 @@ function getSpeciesByAttribute(req, res) {
     average_lifespan,
     homeworld_terrain,
     homeworld_climate,
-  } = req.body;
+  } = req.query;
+
+  console.log(average_height);
 
   const responseBody = {
     average_height: speciesList

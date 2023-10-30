@@ -23,11 +23,16 @@ const {
   postPerson,
 } = require("./star_wars/starWarsController");
 
+app.use((req, res, next) => {
+  console.log(`Incoming request: ${req.method} ${req.url}`);
+  next();
+});
+
 /// Star Wars EndPoints ///
 app.get("/api/species", getSpeciesList);
 app.get("/api/attribute/:id", getAttributeList);
 app.get("/api/people/:id", getListOfPeople);
-app.post("/api/matchSpecies", getSpeciesByAttribute);
+app.get("/api/matchSpecies", getSpeciesByAttribute);
 app.post("/api/person", postPerson);
 
 /// Run Server ///

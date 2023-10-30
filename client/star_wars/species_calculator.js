@@ -2,13 +2,15 @@ function speciesCalculator(request) {
   return new Promise((resolve, reject) => {
     let requestBody = request;
 
-    let requestURL = `http://localhost:4000/api/matchSpecies/`;
+    let requestURL = `http://localhost:4000/api/matchSpecies?`;
 
     console.log(requestBody);
+    const params = new URLSearchParams(requestBody).toString();
+    requestURL = requestURL + params;
     console.log(requestURL);
 
     axios
-      .post(requestURL, requestBody)
+      .get(requestURL, requestBody)
       .then((res) => {
         let mostCommonSpecies = "";
 
