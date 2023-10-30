@@ -9,7 +9,7 @@ const getSpeciesList = (req, res) => {
 
 function getAttributeList(req, res) {
   const attribute = req.params.id;
-  console.log(`looking up attribute: ${attribute}`);
+  // console.log(`looking up attribute: ${attribute}`);
 
   function cleanData(data) {
     let originalData = data;
@@ -41,8 +41,8 @@ function getAttributeList(req, res) {
 }
 
 function getSpeciesByAttribute(req, res) {
-  console.log(`looking up species with the following attributes:`);
-  console.log(req.query);
+  // console.log(`looking up species with the following attributes:`);
+  // console.log(req.query);
 
   const {
     average_height,
@@ -100,7 +100,7 @@ function getListOfPeople(req, res) {
     (species) => species.name === req.params.id
   );
   const people = species[0].people;
-  console.log(species, people);
+  // console.log(species, people);
   res.status(200).send(people);
 }
 
@@ -170,7 +170,8 @@ function deleteSpecies(req, res) {
   }
 
   const deletedSpecies = speciesList.splice(speciesIndex, 1);
-  console.log(`Species Deleted: ${deletedSpecies}`);
+  console.log(`Species Deleted`);
+  console.log(`${speciesList.length} remaining species.`);
 
   res.status(200).send(`Successfully deleted ${species} from speciesList`);
 }
